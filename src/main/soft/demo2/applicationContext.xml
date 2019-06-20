@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--1、set方式注入-->
+    <bean name="username" class="soft.demo2.User">
+        <!-- 值类型注入：为User对象中名为name的属性注入tom作为值 -->
+        <property name="name" value="Tom"></property>
+        <property name="age" value="18"></property>
+        <!-- 为car属性注入下方配置的car对象 -->
+        <property name="car" ref="car"></property>
+    </bean>
+    <!-- 引用类型注入：将car对象配置到容器中 -->
+    <bean name="car" class="soft.demo2.Car">
+        <property name="name" value="兰博基尼"></property>
+        <property name="color" value="蓝色"></property>
+    </bean>
+    <!--2、构造函数注入-->
+    <bean name="username1" class="soft.demo2.User1">
+        <!-- name属性：构造函数的参数名 -->
+        <!-- index属性：构造函数的参索引. 例：index="0" -->
+        <!-- type属性：构造函数的参数类型 . 例：type="java.lang.Integer"-->
+        <constructor-arg name="name" value="An"></constructor-arg>
+        <constructor-arg name="age" value="19"></constructor-arg>
+        <constructor-arg name="car" ref="car"></constructor-arg>
+    </bean>
+    <!-- =========================================================== -->
+    <!-- 复杂类型注入 -->
+    <bean name="CB" class="soft.demo2.CollectionBean">
+        <!-- 如果数组中只准备注入一个值（对象），直接使用value|ref即可
+		<property name="arr" value="Tom"></property>-->
+        <!-- array注入，多元素注入 -->
+        <property name="arr">
+            <array>
+                <value>小树</value>
+                <value>小林</value>
+                <!--可引用-->
+                <ref bean="username"></ref>
+            </array>
+        </property>
+        <!--List类型注入-->
+        <property name="list">
+            <list>
+                <value>小花</value>
+                <value>小木</value>
+                <ref bean="username"></ref>
+            </list>
+        </property>
+        <!--Map类型注入-->
+        <property name="map">
+            <map>
+                <entry key="name" value="小草"></entry>
+                <entry key="type" value-ref="username"></entry>
+                <entry key-ref="car" value-ref="username"></entry>
+            </map>
+        </property>
+        <property name="properties">
+            <props>
+                <prop key="name">小溪</prop>
+                <prop key="value">小河</prop>
+            </props>
+        </property>
+    </bean>
+
+</beans>
